@@ -58,7 +58,7 @@ extern "C" void kmain() {
   // main.cpp
   Fb::doInit(&framebuffer_request);
   Console::init();
-  Log::logout << "Starting maat\n";
+  Log::log("Starting maat", DEBUG);
 
   for (;;)
     asm("hlt");

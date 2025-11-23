@@ -2,17 +2,10 @@
 
 #include <sys/kprintf.hpp>
 
+enum logLevel { DEBUG, WARN, ERROR };
+
 namespace Log {
 
-// Log::logout << "Hi!"
-class logout {
-public:
-  template <typename T> logout &operator<<(T value) {
-    kprintf(value);
-    return *this;
-  }
-};
-
-inline logout logout;
+void log(const char *msg, logLevel level);
 
 } // namespace Log

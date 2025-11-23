@@ -45,6 +45,7 @@ CPPFLAGS_C := \
 
 CPPFLAGS_CXX := \
     $(CPPFLAGS_C) \
+    -fno-threadsafe-statics\
     -isystem freestnd-cxx-hdrs/$(ARCH)/include
 
 ifeq ($(CC_IS_CLANG),1)
