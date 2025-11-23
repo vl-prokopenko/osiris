@@ -11,3 +11,5 @@ void putchar(char c, uint32_t color);
 #define COLOR_WHITE 0xFFFFFF
 #define COLOR_BLACK 0x000000
 #define COLOR_RED 0xFF0000
+#define COLOR_YELLOW 0xFFFF00
+#define COLOR_GREEN 0xa0fd6c

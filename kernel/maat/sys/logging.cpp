@@ -1,3 +1,4 @@
+#include <sys/console.hpp>
 #include <sys/kprintf.hpp>
 #include <sys/logging.hpp>
 
@@ -7,6 +8,14 @@ void log(const char *msg, logLevel level) {
                                      : (level == WARN) ? "WARN"
                                                        : "ERROR";
 
-  kprintf("[%s] %s\n", loglevel_text, msg);
+  uint32_t color = (level == DEBUG)  ? COLOR_WHITE
+                   : (level == WARN) ? COLOR_YELLOW
+                                     : COLOR_RED;
+
+  Console::write("[", color);
+  Console::write(loglevel_text, color);
+  Console::write("] ", color);
+  Console::write(msg, color);
+  Console::write("\n", color);
 }
 } // namespace Log

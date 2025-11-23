@@ -1,3 +1,4 @@
+#include <arch/x64/gdt.hpp>
 #include <cstddef>
 #include <cstdint>
 #include <drv/framebuffer/framebuffer.hpp>
@@ -59,6 +60,7 @@ extern "C" void kmain() {
   Fb::doInit(&framebuffer_request);
   Console::init();
   Log::log("Starting maat", DEBUG);
+  x64::gdt::init();
 
   for (;;)
     asm("hlt");
