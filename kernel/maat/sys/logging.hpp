@@ -6,6 +6,6 @@ enum logLevel { DEBUG, WARN, ERROR };
 
 namespace Log {
 
-void log(const char *msg, logLevel level);
+void log(logLevel level, const char *fmt, ...);
 
 } // namespace Log

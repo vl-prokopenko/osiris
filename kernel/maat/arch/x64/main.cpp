@@ -1,4 +1,6 @@
+#include <arch/halt.hpp>
 #include <arch/x64/gdt.hpp>
+#include <arch/x64/idt.hpp>
 #include <cstddef>
 #include <cstdint>
 #include <drv/framebuffer/framebuffer.hpp>
@@ -53,15 +55,11 @@ extern "C" void kmain() {
     __init_array[i]();
   }
 
-  // initialization tasks
-  // initialize Fb first, we can't
-  // access limine requests outside of
-  // main.cpp
-  Fb::doInit(&framebuffer_request);
   Console::init();
-  Log::log("Starting maat", DEBUG);
+  Fb::doInit(&framebuffer_request);
+  Log::log(DEBUG, "Starting maat");
   x64::gdt::init();
+  x64::Interrupts::init();
 
-  for (;;)
-    asm("hlt");
+  Arch::halt();
 }

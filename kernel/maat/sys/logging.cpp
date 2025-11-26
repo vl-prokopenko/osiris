@@ -1,9 +1,10 @@
+#include <cstdarg>
 #include <sys/console.hpp>
 #include <sys/kprintf.hpp>
 #include <sys/logging.hpp>
 
 namespace Log {
-void log(const char *msg, logLevel level) {
+void log(logLevel level, const char *fmt, ...) {
   static const char *loglevel_text = (level == DEBUG)  ? "DEBUG"
                                      : (level == WARN) ? "WARN"
                                                        : "ERROR";
@@ -15,7 +16,12 @@ void log(const char *msg, logLevel level) {
   Console::write("[", color);
   Console::write(loglevel_text, color);
   Console::write("] ", color);
-  Console::write(msg, color);
-  Console::write("\n", color);
+
+  va_list ap;
+  va_start(ap, fmt);
+  kvprintf(fmt, ap);
+  va_end(ap);
+
+  Console::putchar('\n', color);
 }
 } // namespace Log

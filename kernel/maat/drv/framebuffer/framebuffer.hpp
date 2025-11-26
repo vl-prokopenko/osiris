@@ -12,6 +12,8 @@ public:
         _cursor_y(cursor_y), _pitch(pitch), _bpp(bpp) {}
 
   void writePixel(int y, int x, std::uint32_t color);
+  void deleteCursor();
+  void drawCursor();
   void putCharAt(char c, int x, int y, uint32_t color);
   void putChar(char c, uint32_t color);
   void scroll();

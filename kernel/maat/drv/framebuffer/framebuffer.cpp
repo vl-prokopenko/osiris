@@ -23,6 +23,22 @@ void Framebuffer::putCharAt(char c, int x, int y, uint32_t color) {
   }
 }
 
+void Framebuffer::drawCursor() {
+  int cursor_x = _cursor_x;
+  int cursor_y = _cursor_y + 15;
+
+  for (int col = 0; col < 8; col++) {
+    writePixel(cursor_y, cursor_x + col, 0xFFFFFFFF);
+  }
+}
+
+void Framebuffer::deleteCursor() {
+  int y = _cursor_y + 15;
+  for (int col = 0; col < 8; col++) {
+    writePixel(y, _cursor_x + col, 0x00000000);
+  }
+}
+
 void Framebuffer::scroll() {
   const int CHAR_HEIGHT = 16;
   uint32_t *pixels = _addr;
@@ -54,20 +70,22 @@ void Framebuffer::newLine() {
 }
 
 void Framebuffer::putChar(char c, uint32_t color) {
+  deleteCursor();
+
   if (c == '\n') {
     newLine();
-    return;
+  } else {
+    putCharAt(c, _cursor_x, _cursor_y, color);
+    _cursor_x += 8;
+    if (_cursor_x + 8 >= _width) {
+      newLine();
+    }
   }
-  putCharAt(c, _cursor_x, _cursor_y, color);
-  _cursor_x = _cursor_x + 8;
 
-  if (_cursor_x + 8 >= _width) {
-    newLine();
-  }
-
-  if (_cursor_y + 16 >= _height) {
+  if (_cursor_y + 16 >= _height)
     scroll();
-  }
+
+  drawCursor();
 }
 
 void Framebuffer::init(volatile struct limine_framebuffer_request *request) {

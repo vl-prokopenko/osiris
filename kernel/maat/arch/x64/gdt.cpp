@@ -73,7 +73,7 @@ void init() {
   reg.base = (uint64_t)&gdt;
   asm volatile("lgdt %0" ::"m"(reg));
   initTSS();
-  Log::log("x64: Reloaded segments", DEBUG);
+  Log::log(DEBUG, "x64::gdt::init: reloading segments");
   flush();
 }
 
